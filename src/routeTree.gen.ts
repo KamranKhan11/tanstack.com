@@ -21,6 +21,7 @@ import { Route as StatsIndexRouteImport } from './routes/stats/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as LibrariesIndexRouteImport } from './routes/_libraries/index'
 import { Route as LibraryIdIndexRouteImport } from './routes/$libraryId/index'
+import { Route as AuthSignoutRouteImport } from './routes/auth/signout'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as LibrariesWorkshopsRouteImport } from './routes/_libraries/workshops'
 import { Route as LibrariesTermsRouteImport } from './routes/_libraries/terms'
@@ -44,8 +45,9 @@ import { Route as AdminRolesIndexRouteImport } from './routes/admin/roles.index'
 import { Route as AdminFeedIndexRouteImport } from './routes/admin/feed.index'
 import { Route as LibrariesFeedIndexRouteImport } from './routes/_libraries/feed.index'
 import { Route as LibrariesBlogIndexRouteImport } from './routes/_libraries/blog.index'
-import { Route as ApiGithubReleasesRouteImport } from './routes/api/github/releases'
-import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as AuthProviderStartRouteImport } from './routes/auth/$provider/start'
+import { Route as ApiGithubWebhookRouteImport } from './routes/api/github/webhook'
+import { Route as ApiAdminSyncRouteImport } from './routes/api/admin/sync'
 import { Route as AdminRolesRoleIdRouteImport } from './routes/admin/roles.$roleId'
 import { Route as AdminFeedIdRouteImport } from './routes/admin/feed.$id'
 import { Route as LibrariesFeedIdRouteImport } from './routes/_libraries/feed.$id'
@@ -64,6 +66,7 @@ import { Route as LibrariesDevtoolsVersionIndexRouteImport } from './routes/_lib
 import { Route as LibrariesDbVersionIndexRouteImport } from './routes/_libraries/db.$version.index'
 import { Route as LibrariesConfigVersionIndexRouteImport } from './routes/_libraries/config.$version.index'
 import { Route as LibraryIdVersionDocsIndexRouteImport } from './routes/$libraryId/$version.docs.index'
+import { Route as ApiAuthCallbackProviderRouteImport } from './routes/api/auth/callback/$provider'
 import { Route as LibraryIdVersionDocsChar123Char125DotmdRouteImport } from './routes/$libraryId/$version.docs.{$}[.]md'
 import { Route as LibraryIdVersionDocsContributorsRouteImport } from './routes/$libraryId/$version.docs.contributors'
 import { Route as LibraryIdVersionDocsCommunityResourcesRouteImport } from './routes/$libraryId/$version.docs.community-resources'
@@ -132,6 +135,11 @@ const LibraryIdIndexRoute = LibraryIdIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => LibraryIdRouteRoute,
+} as any)
+const AuthSignoutRoute = AuthSignoutRouteImport.update({
+  id: '/auth/signout',
+  path: '/auth/signout',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
@@ -248,14 +256,19 @@ const LibrariesBlogIndexRoute = LibrariesBlogIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LibrariesBlogRoute,
 } as any)
-const ApiGithubReleasesRoute = ApiGithubReleasesRouteImport.update({
-  id: '/api/github/releases',
-  path: '/api/github/releases',
+const AuthProviderStartRoute = AuthProviderStartRouteImport.update({
+  id: '/auth/$provider/start',
+  path: '/auth/$provider/start',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
-  id: '/api/auth/$',
-  path: '/api/auth/$',
+const ApiGithubWebhookRoute = ApiGithubWebhookRouteImport.update({
+  id: '/api/github/webhook',
+  path: '/api/github/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminSyncRoute = ApiAdminSyncRouteImport.update({
+  id: '/api/admin/sync',
+  path: '/api/admin/sync',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRolesRoleIdRoute = AdminRolesRoleIdRouteImport.update({
@@ -360,6 +373,11 @@ const LibraryIdVersionDocsIndexRoute =
     path: '/',
     getParentRoute: () => LibraryIdVersionDocsRoute,
   } as any)
+const ApiAuthCallbackProviderRoute = ApiAuthCallbackProviderRouteImport.update({
+  id: '/api/auth/callback/$provider',
+  path: '/api/auth/callback/$provider',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LibraryIdVersionDocsChar123Char125DotmdRoute =
   LibraryIdVersionDocsChar123Char125DotmdRouteImport.update({
     id: '/{$}.md',
@@ -441,6 +459,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof LibrariesTermsRoute
   '/workshops': typeof LibrariesWorkshopsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/auth/signout': typeof AuthSignoutRoute
   '/$libraryId/': typeof LibraryIdIndexRoute
   '/': typeof LibrariesIndexRoute
   '/admin/': typeof AdminIndexRoute
@@ -450,8 +469,9 @@ export interface FileRoutesByFullPath {
   '/feed/$id': typeof LibrariesFeedIdRoute
   '/admin/feed/$id': typeof AdminFeedIdRoute
   '/admin/roles/$roleId': typeof AdminRolesRoleIdRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/github/releases': typeof ApiGithubReleasesRoute
+  '/api/admin/sync': typeof ApiAdminSyncRoute
+  '/api/github/webhook': typeof ApiGithubWebhookRoute
+  '/auth/$provider/start': typeof AuthProviderStartRoute
   '/blog/': typeof LibrariesBlogIndexRoute
   '/feed': typeof LibrariesFeedIndexRoute
   '/admin/feed': typeof AdminFeedIndexRoute
@@ -461,6 +481,7 @@ export interface FileRoutesByFullPath {
   '/$libraryId/$version/docs/community-resources': typeof LibraryIdVersionDocsCommunityResourcesRoute
   '/$libraryId/$version/docs/contributors': typeof LibraryIdVersionDocsContributorsRoute
   '/$libraryId/$version/docs/{$}.md': typeof LibraryIdVersionDocsChar123Char125DotmdRoute
+  '/api/auth/callback/$provider': typeof ApiAuthCallbackProviderRoute
   '/$libraryId/$version/docs/': typeof LibraryIdVersionDocsIndexRoute
   '/config/$version': typeof LibrariesConfigVersionIndexRoute
   '/db/$version': typeof LibrariesDbVersionIndexRoute
@@ -503,6 +524,7 @@ export interface FileRoutesByTo {
   '/terms': typeof LibrariesTermsRoute
   '/workshops': typeof LibrariesWorkshopsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/auth/signout': typeof AuthSignoutRoute
   '/$libraryId': typeof LibraryIdIndexRoute
   '/': typeof LibrariesIndexRoute
   '/admin': typeof AdminIndexRoute
@@ -511,8 +533,9 @@ export interface FileRoutesByTo {
   '/feed/$id': typeof LibrariesFeedIdRoute
   '/admin/feed/$id': typeof AdminFeedIdRoute
   '/admin/roles/$roleId': typeof AdminRolesRoleIdRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/github/releases': typeof ApiGithubReleasesRoute
+  '/api/admin/sync': typeof ApiAdminSyncRoute
+  '/api/github/webhook': typeof ApiGithubWebhookRoute
+  '/auth/$provider/start': typeof AuthProviderStartRoute
   '/blog': typeof LibrariesBlogIndexRoute
   '/feed': typeof LibrariesFeedIndexRoute
   '/admin/feed': typeof AdminFeedIndexRoute
@@ -522,6 +545,7 @@ export interface FileRoutesByTo {
   '/$libraryId/$version/docs/community-resources': typeof LibraryIdVersionDocsCommunityResourcesRoute
   '/$libraryId/$version/docs/contributors': typeof LibraryIdVersionDocsContributorsRoute
   '/$libraryId/$version/docs/{$}.md': typeof LibraryIdVersionDocsChar123Char125DotmdRoute
+  '/api/auth/callback/$provider': typeof ApiAuthCallbackProviderRoute
   '/$libraryId/$version/docs': typeof LibraryIdVersionDocsIndexRoute
   '/config/$version': typeof LibrariesConfigVersionIndexRoute
   '/db/$version': typeof LibrariesDbVersionIndexRoute
@@ -569,6 +593,7 @@ export interface FileRoutesById {
   '/_libraries/terms': typeof LibrariesTermsRoute
   '/_libraries/workshops': typeof LibrariesWorkshopsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/auth/signout': typeof AuthSignoutRoute
   '/$libraryId/': typeof LibraryIdIndexRoute
   '/_libraries/': typeof LibrariesIndexRoute
   '/admin/': typeof AdminIndexRoute
@@ -578,8 +603,9 @@ export interface FileRoutesById {
   '/_libraries/feed/$id': typeof LibrariesFeedIdRoute
   '/admin/feed/$id': typeof AdminFeedIdRoute
   '/admin/roles/$roleId': typeof AdminRolesRoleIdRoute
-  '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/github/releases': typeof ApiGithubReleasesRoute
+  '/api/admin/sync': typeof ApiAdminSyncRoute
+  '/api/github/webhook': typeof ApiGithubWebhookRoute
+  '/auth/$provider/start': typeof AuthProviderStartRoute
   '/_libraries/blog/': typeof LibrariesBlogIndexRoute
   '/_libraries/feed/': typeof LibrariesFeedIndexRoute
   '/admin/feed/': typeof AdminFeedIndexRoute
@@ -589,6 +615,7 @@ export interface FileRoutesById {
   '/$libraryId/$version/docs/community-resources': typeof LibraryIdVersionDocsCommunityResourcesRoute
   '/$libraryId/$version/docs/contributors': typeof LibraryIdVersionDocsContributorsRoute
   '/$libraryId/$version/docs/{$}.md': typeof LibraryIdVersionDocsChar123Char125DotmdRoute
+  '/api/auth/callback/$provider': typeof ApiAuthCallbackProviderRoute
   '/$libraryId/$version/docs/': typeof LibraryIdVersionDocsIndexRoute
   '/_libraries/config/$version/': typeof LibrariesConfigVersionIndexRoute
   '/_libraries/db/$version/': typeof LibrariesDbVersionIndexRoute
@@ -636,6 +663,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/workshops'
     | '/admin/users'
+    | '/auth/signout'
     | '/$libraryId/'
     | '/'
     | '/admin/'
@@ -645,8 +673,9 @@ export interface FileRouteTypes {
     | '/feed/$id'
     | '/admin/feed/$id'
     | '/admin/roles/$roleId'
-    | '/api/auth/$'
-    | '/api/github/releases'
+    | '/api/admin/sync'
+    | '/api/github/webhook'
+    | '/auth/$provider/start'
     | '/blog/'
     | '/feed'
     | '/admin/feed'
@@ -656,6 +685,7 @@ export interface FileRouteTypes {
     | '/$libraryId/$version/docs/community-resources'
     | '/$libraryId/$version/docs/contributors'
     | '/$libraryId/$version/docs/{$}.md'
+    | '/api/auth/callback/$provider'
     | '/$libraryId/$version/docs/'
     | '/config/$version'
     | '/db/$version'
@@ -698,6 +728,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/workshops'
     | '/admin/users'
+    | '/auth/signout'
     | '/$libraryId'
     | '/'
     | '/admin'
@@ -706,8 +737,9 @@ export interface FileRouteTypes {
     | '/feed/$id'
     | '/admin/feed/$id'
     | '/admin/roles/$roleId'
-    | '/api/auth/$'
-    | '/api/github/releases'
+    | '/api/admin/sync'
+    | '/api/github/webhook'
+    | '/auth/$provider/start'
     | '/blog'
     | '/feed'
     | '/admin/feed'
@@ -717,6 +749,7 @@ export interface FileRouteTypes {
     | '/$libraryId/$version/docs/community-resources'
     | '/$libraryId/$version/docs/contributors'
     | '/$libraryId/$version/docs/{$}.md'
+    | '/api/auth/callback/$provider'
     | '/$libraryId/$version/docs'
     | '/config/$version'
     | '/db/$version'
@@ -763,6 +796,7 @@ export interface FileRouteTypes {
     | '/_libraries/terms'
     | '/_libraries/workshops'
     | '/admin/users'
+    | '/auth/signout'
     | '/$libraryId/'
     | '/_libraries/'
     | '/admin/'
@@ -772,8 +806,9 @@ export interface FileRouteTypes {
     | '/_libraries/feed/$id'
     | '/admin/feed/$id'
     | '/admin/roles/$roleId'
-    | '/api/auth/$'
-    | '/api/github/releases'
+    | '/api/admin/sync'
+    | '/api/github/webhook'
+    | '/auth/$provider/start'
     | '/_libraries/blog/'
     | '/_libraries/feed/'
     | '/admin/feed/'
@@ -783,6 +818,7 @@ export interface FileRouteTypes {
     | '/$libraryId/$version/docs/community-resources'
     | '/$libraryId/$version/docs/contributors'
     | '/$libraryId/$version/docs/{$}.md'
+    | '/api/auth/callback/$provider'
     | '/$libraryId/$version/docs/'
     | '/_libraries/config/$version/'
     | '/_libraries/db/$version/'
@@ -812,10 +848,13 @@ export interface RootRouteChildren {
   MerchRoute: typeof MerchRoute
   PartnersEmbedRoute: typeof PartnersEmbedRoute
   SponsorsEmbedRoute: typeof SponsorsEmbedRoute
+  AuthSignoutRoute: typeof AuthSignoutRoute
   StatsIndexRoute: typeof StatsIndexRoute
-  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
-  ApiGithubReleasesRoute: typeof ApiGithubReleasesRoute
+  ApiAdminSyncRoute: typeof ApiAdminSyncRoute
+  ApiGithubWebhookRoute: typeof ApiGithubWebhookRoute
+  AuthProviderStartRoute: typeof AuthProviderStartRoute
   StatsNpmIndexRoute: typeof StatsNpmIndexRoute
+  ApiAuthCallbackProviderRoute: typeof ApiAuthCallbackProviderRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -903,6 +942,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/$libraryId/'
       preLoaderRoute: typeof LibraryIdIndexRouteImport
       parentRoute: typeof LibraryIdRouteRoute
+    }
+    '/auth/signout': {
+      id: '/auth/signout'
+      path: '/auth/signout'
+      fullPath: '/auth/signout'
+      preLoaderRoute: typeof AuthSignoutRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/users': {
       id: '/admin/users'
@@ -1065,18 +1111,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibrariesBlogIndexRouteImport
       parentRoute: typeof LibrariesBlogRoute
     }
-    '/api/github/releases': {
-      id: '/api/github/releases'
-      path: '/api/github/releases'
-      fullPath: '/api/github/releases'
-      preLoaderRoute: typeof ApiGithubReleasesRouteImport
+    '/auth/$provider/start': {
+      id: '/auth/$provider/start'
+      path: '/auth/$provider/start'
+      fullPath: '/auth/$provider/start'
+      preLoaderRoute: typeof AuthProviderStartRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/auth/$': {
-      id: '/api/auth/$'
-      path: '/api/auth/$'
-      fullPath: '/api/auth/$'
-      preLoaderRoute: typeof ApiAuthSplatRouteImport
+    '/api/github/webhook': {
+      id: '/api/github/webhook'
+      path: '/api/github/webhook'
+      fullPath: '/api/github/webhook'
+      preLoaderRoute: typeof ApiGithubWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin/sync': {
+      id: '/api/admin/sync'
+      path: '/api/admin/sync'
+      fullPath: '/api/admin/sync'
+      preLoaderRoute: typeof ApiAdminSyncRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/roles/$roleId': {
@@ -1204,6 +1257,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/$libraryId/$version/docs/'
       preLoaderRoute: typeof LibraryIdVersionDocsIndexRouteImport
       parentRoute: typeof LibraryIdVersionDocsRoute
+    }
+    '/api/auth/callback/$provider': {
+      id: '/api/auth/callback/$provider'
+      path: '/api/auth/callback/$provider'
+      fullPath: '/api/auth/callback/$provider'
+      preLoaderRoute: typeof ApiAuthCallbackProviderRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$libraryId/$version/docs/{$}.md': {
       id: '/$libraryId/$version/docs/{$}.md'
@@ -1449,10 +1509,13 @@ const rootRouteChildren: RootRouteChildren = {
   MerchRoute: MerchRoute,
   PartnersEmbedRoute: PartnersEmbedRoute,
   SponsorsEmbedRoute: SponsorsEmbedRoute,
+  AuthSignoutRoute: AuthSignoutRoute,
   StatsIndexRoute: StatsIndexRoute,
-  ApiAuthSplatRoute: ApiAuthSplatRoute,
-  ApiGithubReleasesRoute: ApiGithubReleasesRoute,
+  ApiAdminSyncRoute: ApiAdminSyncRoute,
+  ApiGithubWebhookRoute: ApiGithubWebhookRoute,
+  AuthProviderStartRoute: AuthProviderStartRoute,
   StatsNpmIndexRoute: StatsNpmIndexRoute,
+  ApiAuthCallbackProviderRoute: ApiAuthCallbackProviderRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
